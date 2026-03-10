@@ -47,6 +47,65 @@ export function useGsapAnimations() {
       gsap.to("[data-start='hidden']", { autoAlpha: 1, duration: 0.1, delay: 0.2 });
     });
 
+    // Hero Section - Animación ligada al scroll (título, acento, descripción)
+    const heroMovingTitle = document.querySelector('.hero-moving-title');
+    const heroAccent = document.querySelector('.hero-accent');
+    const heroAccentRotate = document.querySelector('.hero-accent-rotate');
+    const heroAccentWrap = document.querySelector('.hero-accent-wrap');
+    const heroAccentShape = document.querySelector('.hero-accent-shape');
+    const heroDescWrap = document.querySelector('.hero-desc-wrap');
+    let heroScrollTrigger;
+    if (heroMovingTitle && heroAccent && heroAccentWrap && heroAccentShape && heroDescWrap) {
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
+        },
+      });
+      // Título: empieza en 0 (primera parte visible "SOLUCIONES"), al hacer scroll se desplaza a la izquierda (keyframe 55%)
+      heroTl.fromTo(heroMovingTitle, { x: 0 }, { x: '-32.4883%', duration: 0.55, ease: 'none' }, 0);
+      // Acento interior: rotación -360deg (keyframe 60%)
+      heroTl.fromTo(heroAccent, { rotateZ: 0 }, { rotateZ: -360, duration: 0.6, ease: 'none' }, 0);
+      // Acento exterior (opcional): ligera rotación para efecto 3D
+      if (heroAccentRotate) {
+        heroTl.fromTo(heroAccentRotate, { rotateZ: 0 }, { rotateZ: -214, duration: 0.6, ease: 'none' }, 0);
+      }
+      // Wrap del acento: de 28vw x 9vw a 9vw x 9vw (keyframe 60%)
+      heroTl.fromTo(heroAccentWrap, { width: '28vw', height: '9vw' }, { width: '9vw', height: '9vw', duration: 0.6, ease: 'power2.inOut' }, 0);
+      // Shape: filter invert 100% → 0% (keyframe 50%)
+      heroTl.fromTo(heroAccentShape, { filter: 'invert(100%)' }, { filter: 'invert(0%)', duration: 0.5, ease: 'power2.out' }, 0);
+      // Descripción: opacity 0 → 1 (keyframe 59%)
+      heroTl.fromTo(heroDescWrap, { opacity: 0 }, { opacity: 1, duration: 0.59, ease: 'none' }, 0);
+      heroScrollTrigger = heroTl.scrollTrigger;
+    }
+
+    // About Section - Reveal al entrar en view (project-card-inner, big-desc, small-desc)
+    const aboutCardInner = document.querySelector('.project-card-inner');
+    const aboutBigDesc = document.querySelectorAll('.big-desc');
+    const aboutSmallDesc = document.querySelectorAll('.small-desc');
+    const aboutBigText = document.querySelectorAll('.big-text.about');
+    let aboutRevealTrigger = null;
+    if (document.querySelector('#about') || document.querySelector('.about-scroll-trigger')) {
+      const triggerEl = document.querySelector('.about-wrap') || document.querySelector('#about');
+      if (triggerEl && (aboutCardInner || aboutBigDesc.length || aboutSmallDesc.length)) {
+        aboutRevealTrigger = ScrollTrigger.create({
+          trigger: triggerEl,
+          start: 'top 75%',
+          once: true,
+          onEnter: () => {
+            if (aboutCardInner) {
+              gsap.to(aboutCardInner, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' });
+            }
+            aboutBigDesc.forEach((el) => gsap.to(el, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.2 }));
+            aboutSmallDesc.forEach((el) => gsap.to(el, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 }));
+            aboutBigText.forEach((el) => gsap.to(el, { y: 0, duration: 0.6, ease: 'power2.out' }));
+          },
+        });
+      }
+    }
+
     // About Section - Image Card Loop
     const items = document.querySelectorAll('.project-card');
     const offset = 30;
@@ -144,11 +203,84 @@ export function useGsapAnimations() {
       }
     });
 
+    // Why Us Section - Barra de progreso (progress-bar-dynamic) al entrar en view
+    const progressBarTriggers = [];
+    document.querySelectorAll('.progress-bar-dynamic').forEach((bar) => {
+      const parentCard = bar.closest('.why-us-card');
+      if (!parentCard) return;
+      const st = ScrollTrigger.create({
+        trigger: parentCard,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          gsap.fromTo(bar, { width: 0 }, { width: 145, duration: 2.6, ease: 'power2.out' });
+        },
+      });
+      progressBarTriggers.push(st);
+    });
+
+    // Work Section - Shrink de imágenes ligado al scroll (100vh → 68vh)
+    const initialWorkImage = document.querySelector('.initial-work-image');
+    let workInitScrollTrigger = null;
+    if (initialWorkImage) {
+      const tween = gsap.to(initialWorkImage, {
+        height: '68vh',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#work-init',
+          start: 'top bottom',
+          end: 'center center',
+          scrub: 1.5,
+        },
+      });
+      workInitScrollTrigger = tween.scrollTrigger;
+    }
+    const projectWorkImages = document.querySelectorAll('.project-work-image, .project-work-image-2');
+    const workSectionTriggers = [];
+    projectWorkImages.forEach((img) => {
+      const wrap = img.closest('.project-sticky');
+      const tween = gsap.to(img, {
+        height: '68vh',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: wrap || img,
+          start: 'top bottom',
+          end: 'center center',
+          scrub: 1.5,
+        },
+      });
+      if (tween.scrollTrigger) workSectionTriggers.push(tween.scrollTrigger);
+    });
+
+    // Testimonial Section - Giro 3D horizontal (rotateY 0° → 180°) ligado al scroll (derecha a izquierda)
+    const testimonialRotateEl = document.querySelector('.testimonial-rotate');
+    let testimonialScrollTrigger;
+    if (testimonialRotateEl) {
+      const testimonialTl = gsap.to(testimonialRotateEl, {
+        rotateY: 180,
+        ease: 'none',
+        force3D: true,
+        scrollTrigger: {
+          trigger: '#testimonial',
+          start: 'top 65%',
+          end: 'bottom 35%',
+          scrub: 1.2,
+        },
+      });
+      testimonialScrollTrigger = testimonialTl.scrollTrigger;
+    }
+
     return () => {
       window.removeEventListener('resize', onResize);
       resizeObserver.disconnect();
       if (intervalId) clearInterval(intervalId);
       if (scrollTriggerInstance) scrollTriggerInstance.kill();
+      if (testimonialScrollTrigger) testimonialScrollTrigger.kill();
+      if (heroScrollTrigger) heroScrollTrigger.kill();
+      if (aboutRevealTrigger) aboutRevealTrigger.kill();
+      if (workInitScrollTrigger) workInitScrollTrigger.kill();
+      workSectionTriggers.forEach((t) => t.kill());
+      progressBarTriggers.forEach((t) => t.kill());
     };
   }, []);
 }

@@ -9,7 +9,7 @@ export default function Hero() {
             className="hero-moving-title"
             style={{
               willChange: 'transform',
-              transform: 'translate3d(-32.4883%, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)',
+              transform: 'translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)',
               transformStyle: 'preserve-3d',
             }}
           >
@@ -21,7 +21,7 @@ export default function Hero() {
                     data-w-id="9b0fee6e-8518-43be-d6f1-eea36f39b1af"
                     className="hero-accent-rotate"
                     style={{
-                      transform: 'translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-214.283deg) skew(0deg, 0deg)',
+                      transform: 'translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)',
                       transformStyle: 'preserve-3d',
                       willChange: 'transform',
                     }}
@@ -30,7 +30,7 @@ export default function Hero() {
                       className="hero-accent"
                       style={{
                         willChange: 'transform',
-                        transform: 'translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(-360deg) skew(0deg, 0deg)',
+                        transform: 'translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)',
                         transformStyle: 'preserve-3d',
                       }}
                     >

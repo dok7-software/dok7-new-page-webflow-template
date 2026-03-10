@@ -1,0 +1,8 @@
+/**
+ * Override: evita que el contenido de .about-wrap se vea detrás
+ * de la sección Service (.project-card-block). El bloque tenía
+ * background transparent y el about-wrap quedaba visible al hacer scroll.
+ */
+.project-card-block {
+  background-color: var(--azul-dok7, #182547);
+}
