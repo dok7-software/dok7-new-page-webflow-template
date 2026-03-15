@@ -6,7 +6,7 @@ Este proyecto es la versión React del sitio HTML estático original, manteniend
 
 ```
 /src
-  /components     → Navbar, Hero, AboutSection, WorkInitSection, WorkSection, WhyUsSection, TestimonialSection, CTASection, FooterSection, WebflowBadge
+  /components     → Navbar, Hero, AboutSection, WorkInitSection, WorkSection, WhyUsSection, TestimonialSection, CTASection, FooterSection
   /sections       → Fragmentos HTML originales (about, workinit, work, whyus, testimonial, cta, footer) para renderizado idéntico
   /hooks          → useGsapAnimations (Lenis, GSAP ScrollTrigger, project-card loop, why-us counter)
   /utils          → helpers (assets path)
@@ -37,6 +37,6 @@ npm run preview
 ## Notas
 
 - Los CSS y assets se mantienen igual; las rutas se resuelven a `/assets/` desde `public/assets`.
-- Las animaciones (GSAP, Lenis, Webflow) se inicializan en `useGsapAnimations` tras el mount.
+- Las animaciones (GSAP, Lenis, ScrollTrigger) se inicializan en `useGsapAnimations` tras el mount.
 - El HTML de secciones grandes se carga con `?raw` y se renderiza con `dangerouslySetInnerHTML` para no alterar markup ni estilos.
 - Navbar y Hero están implementados como JSX; el resto de secciones usan el HTML original con reemplazo de rutas `./assets/` → `/assets/`.

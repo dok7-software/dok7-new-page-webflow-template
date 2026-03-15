@@ -14,7 +14,7 @@ export default function Hero() {
             }}
           >
             <div className="hero-title-wrap">
-              <h1 className="default-title">SOLUCIONES</h1>
+              <h1 className="default-title">Soluciones</h1>
               <div className="hero-accent-wrap" style={{ willChange: 'width, height', width: '9vw', height: '9vw' }}>
                 <div className="hero-accent-shape" style={{ willChange: 'filter', filter: 'invert(100%)' }}>
                   <div
@@ -43,13 +43,13 @@ export default function Hero() {
                 </div>
                 <div className="line-bottom"></div>
               </div>
-              <h1>SOFTWARE</h1>
-              <h1>matter</h1>
+              <h1>que</h1>
+              <h1>importan</h1>
             </div>
           </div>
           <div className="hero-desc-wrap" style={{ willChange: 'opacity', opacity: 0 }}>
             <div className="small-text">
-              Studio specialized in crafting identities and design strategy.
+              Soluciones de software a medida para impulsar tu negocio.
             </div>
           </div>
         </div>

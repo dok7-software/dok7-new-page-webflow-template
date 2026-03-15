@@ -34,10 +34,54 @@ export function useGsapAnimations() {
 
     initScroll();
 
+    // Hero Section - Animación ligada al scroll; el desplazamiento se calcula para que la frase se lea completa
+    let heroScrollTrigger = null;
+    const setupHeroTimeline = () => {
+      if (heroScrollTrigger) {
+        heroScrollTrigger.kill();
+        heroScrollTrigger = null;
+      }
+      const heroMovingTitle = document.querySelector('.hero-moving-title');
+      const heroTitleWrap = document.querySelector('.hero-title-wrap');
+      const heroAccent = document.querySelector('.hero-accent');
+      const heroAccentRotate = document.querySelector('.hero-accent-rotate');
+      const heroAccentWrap = document.querySelector('.hero-accent-wrap');
+      const heroAccentShape = document.querySelector('.hero-accent-shape');
+      const heroDescWrap = document.querySelector('.hero-desc-wrap');
+      if (!heroMovingTitle || !heroAccent || !heroAccentWrap || !heroAccentShape || !heroDescWrap) return;
+
+      gsap.set(heroMovingTitle, { x: 0 });
+      const titleWidth = heroTitleWrap ? heroTitleWrap.scrollWidth : heroMovingTitle.scrollWidth;
+      const rect = heroMovingTitle.getBoundingClientRect();
+      const spaceRight = window.innerWidth - rect.left;
+      const maxX = Math.min(0, spaceRight - titleWidth);
+
+      const heroTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
+        },
+      });
+      heroTl.fromTo(heroMovingTitle, { x: 0 }, { x: maxX, duration: 0.55, ease: 'none' }, 0);
+      heroTl.fromTo(heroAccent, { rotateZ: 0 }, { rotateZ: -360, duration: 0.6, ease: 'none' }, 0);
+      if (heroAccentRotate) {
+        heroTl.fromTo(heroAccentRotate, { rotateZ: 0 }, { rotateZ: -214, duration: 0.6, ease: 'none' }, 0);
+      }
+      heroTl.fromTo(heroAccentWrap, { width: '28vw', height: '9vw' }, { width: '9vw', height: '9vw', duration: 0.6, ease: 'power2.inOut' }, 0);
+      heroTl.fromTo(heroAccentShape, { filter: 'invert(100%)' }, { filter: 'invert(0%)', duration: 0.5, ease: 'power2.out' }, 0);
+      heroTl.fromTo(heroDescWrap, { opacity: 0 }, { opacity: 1, duration: 0.59, ease: 'none' }, 0);
+      heroScrollTrigger = heroTl.scrollTrigger;
+    };
+
     let resizeTimeout;
     const onResize = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => ScrollTrigger.refresh(), 50);
+      resizeTimeout = setTimeout(() => {
+        ScrollTrigger.refresh();
+        setupHeroTimeline();
+      }, 50);
     };
     window.addEventListener('resize', onResize);
     const resizeObserver = new ResizeObserver(() => onResize());
@@ -47,39 +91,9 @@ export function useGsapAnimations() {
       gsap.to("[data-start='hidden']", { autoAlpha: 1, duration: 0.1, delay: 0.2 });
     });
 
-    // Hero Section - Animación ligada al scroll (título, acento, descripción)
-    const heroMovingTitle = document.querySelector('.hero-moving-title');
-    const heroAccent = document.querySelector('.hero-accent');
-    const heroAccentRotate = document.querySelector('.hero-accent-rotate');
-    const heroAccentWrap = document.querySelector('.hero-accent-wrap');
-    const heroAccentShape = document.querySelector('.hero-accent-shape');
-    const heroDescWrap = document.querySelector('.hero-desc-wrap');
-    let heroScrollTrigger;
-    if (heroMovingTitle && heroAccent && heroAccentWrap && heroAccentShape && heroDescWrap) {
-      const heroTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '#hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
-        },
-      });
-      // Título: empieza en 0 (primera parte visible "SOLUCIONES"), al hacer scroll se desplaza a la izquierda (keyframe 55%)
-      heroTl.fromTo(heroMovingTitle, { x: 0 }, { x: '-32.4883%', duration: 0.55, ease: 'none' }, 0);
-      // Acento interior: rotación -360deg (keyframe 60%)
-      heroTl.fromTo(heroAccent, { rotateZ: 0 }, { rotateZ: -360, duration: 0.6, ease: 'none' }, 0);
-      // Acento exterior (opcional): ligera rotación para efecto 3D
-      if (heroAccentRotate) {
-        heroTl.fromTo(heroAccentRotate, { rotateZ: 0 }, { rotateZ: -214, duration: 0.6, ease: 'none' }, 0);
-      }
-      // Wrap del acento: de 28vw x 9vw a 9vw x 9vw (keyframe 60%)
-      heroTl.fromTo(heroAccentWrap, { width: '28vw', height: '9vw' }, { width: '9vw', height: '9vw', duration: 0.6, ease: 'power2.inOut' }, 0);
-      // Shape: filter invert 100% → 0% (keyframe 50%)
-      heroTl.fromTo(heroAccentShape, { filter: 'invert(100%)' }, { filter: 'invert(0%)', duration: 0.5, ease: 'power2.out' }, 0);
-      // Descripción: opacity 0 → 1 (keyframe 59%)
-      heroTl.fromTo(heroDescWrap, { opacity: 0 }, { opacity: 1, duration: 0.59, ease: 'none' }, 0);
-      heroScrollTrigger = heroTl.scrollTrigger;
-    }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setupHeroTimeline());
+    });
 
     // About Section - Reveal al entrar en view (project-card-inner, big-desc, small-desc)
     const aboutCardInner = document.querySelector('.project-card-inner');

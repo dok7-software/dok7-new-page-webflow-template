@@ -25,23 +25,23 @@ export default function Navbar() {
             <img
               width="105"
               aria-label="Header Logo"
-              alt="Site logo."
-              src={`${ASSETS}/images/69a71518e8601b2fa94fb516_logo.webp`}
+              alt="DOK7"
+              src={`${ASSETS}/images/imagenes/${encodeURIComponent('logo completo a color sin fondo.png')}`}
               loading="lazy"
               className="logo-normal"
             />
           </a>
           <div id="w-node-_46886c73-715f-60b5-8817-d67c53d4e851-53d4e84c" className="navbar-link-wrap">
-            <a href="#about" className="nav-link w-inline-block"><div className="small-text">About</div></a>
+            <a href="#about" className="nav-link w-inline-block"><div className="small-text">Nosotros</div></a>
           </div>
           <div className="navbar-link-wrap">
-            <a href="#Service" className="nav-link w-inline-block"><div className="small-text">Services</div></a>
+            <a href="#Service" className="nav-link w-inline-block"><div className="small-text">Servicios</div></a>
           </div>
           <div className="navbar-link-wrap">
-            <a href="#work-window" className="nav-link w-inline-block"><div className="small-text">Work</div></a>
+            <a href="#work" className="nav-link w-inline-block"><div className="small-text">Portafolio</div></a>
           </div>
           <div className="navbar-link-wrap">
-            <a href="#cta" className="nav-link w-inline-block"><div className="small-text">Contact</div></a>
+            <a href="#cta" className="nav-link w-inline-block"><div className="small-text">Contacto</div></a>
           </div>
           <div id="w-node-_46886c73-715f-60b5-8817-d67c53d4e861-53d4e84c" className="navbar-button-wrap visible">
             <div
@@ -82,16 +82,16 @@ export default function Navbar() {
               </div>
               <div className="navbar-menu-wrapper">
                 <a href="#about" data-w-id="46886c73-715f-60b5-8817-d67c53d4e871" className="header-link-wrap navbar w-inline-block">
-                  <div className="link-text"><div className="navbar-link">About<br /></div></div>
+                  <div className="link-text"><div className="navbar-link">NOSOTROS<br /></div></div>
                 </a>
                 <a href="#Service" data-w-id="46886c73-715f-60b5-8817-d67c53d4e876" className="header-link-wrap navbar w-inline-block">
-                  <div className="link-text"><div className="navbar-link">SERVICE</div></div>
+                  <div className="link-text"><div className="navbar-link">SERVICIOS</div></div>
                 </a>
-                <a href="#work-window" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87a" className="header-link-wrap navbar w-inline-block">
-                  <div className="link-text"><div className="navbar-link">WORK</div></div>
+                <a href="#work" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87a" className="header-link-wrap navbar w-inline-block">
+                  <div className="link-text"><div className="navbar-link">PORTAFOLIO</div></div>
                 </a>
                 <a href="#cta" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87e" className="header-link-wrap navbar w-inline-block">
-                  <div className="link-text"><div className="navbar-link">Contact</div></div>
+                  <div className="link-text"><div className="navbar-link">CONTACTO</div></div>
                 </a>
               </div>
             </div>

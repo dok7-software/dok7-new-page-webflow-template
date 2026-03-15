@@ -1,3 +1,53 @@
+/* Ocultar badge/link de Webflow si lo inyecta el JS */
+.w-webflow-badge {
+  display: none !important;
+}
+
+/* Evitar que body/html recorten el título del hero al hacer scroll */
+html,
+body {
+  overflow-x: visible !important;
+}
+
+/**
+ * Hero "Soluciones que importan": fondo blanco, sin imagen de fondo.
+ */
+.main-section.hero,
+#hero {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  overflow: visible !important;
+}
+
+.hero-wrap {
+  background-image: none !important;
+  background-color: transparent !important;
+  overflow: visible !important;
+}
+
+/* Que el título completo "Soluciones que importan" se vea hasta el final (no cortado) */
+.sticky-wrap,
+.sticky-hero {
+  overflow: visible !important;
+}
+
+.hero-moving-title,
+.hero-title-wrap {
+  overflow: visible !important;
+}
+
+#hero .main-container,
+#hero .w-container {
+  overflow: visible !important;
+  max-width: none !important;
+}
+
+/* Espacio a la derecha para que "importan" se vea al hacer scroll */
+#hero .hero-wrap {
+  padding-right: 20vw !important;
+  box-sizing: content-box;
+}
+
 /**
  * Override: evita que el contenido de .about-wrap se vea detrás
  * de la sección Service (.project-card-block). El bloque tenía
@@ -5,4 +55,245 @@
  */
 .project-card-block {
   background-color: var(--azul-dok7, #182547);
+}
+
+/* Sección Servicios: fondo negro extendido arriba para que se vean "Servicios" y "MVP" */
+#work-init.main-section.initial-work {
+  min-height: auto;
+  overflow: visible !important;
+  padding-top: 40vh !important;
+  margin-top: -140vh !important; /* negro extendido arriba */
+  position: relative;
+}
+/* Barra negra que se extiende por encima de la sección (no se recorta) */
+#work-init.main-section.initial-work::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 100%;
+  height: 40vh;
+  background-color: #000000;
+  pointer-events: none;
+}
+#work-init .main-container,
+#work-init .w-container {
+  overflow: visible !important;
+}
+#work-init .initial-work-wrap {
+  justify-content: flex-start !important;
+  min-height: auto;
+  height: auto;
+  overflow: visible !important;
+}
+#work-init .initial-work-title-wrap {
+  position: relative !important;
+  inset: unset !important;
+  z-index: 2;
+  margin-bottom: 0.5rem;
+}
+#work-init .initial-work-title-wrap .big-text {
+  color: #ffffff !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Texto de cada servicio debajo de su imagen (no superpuesto) */
+#work-init .initial-work-image-wrap {
+  flex-flow: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  position: relative !important;
+  inset: unset !important;
+  margin-top: 2rem;
+}
+#work-init .initial-work-image {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  height: auto !important;
+}
+#work-init .initial-work-text,
+#work .project-work-text {
+  position: relative !important;
+  z-index: 2;
+  margin-top: 1.5rem !important;
+  padding: 0 3vw !important;
+  color: #ffffff !important;
+}
+
+/* Segundo servicio (#work): permitir que el texto debajo de la imagen se vea */
+#work .project-work-wrap {
+  overflow: visible !important;
+  height: auto !important;
+  min-height: 100vh;
+}
+#work .project-work-image-wrap-2 {
+  position: relative !important;
+  flex-flow: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  inset: unset !important;
+}
+#work .project-work-image-2 {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+}
+
+/* Descripciones en la sección Servicios (work-init / work) */
+.service-desc {
+  margin-top: 0.5em;
+  max-width: 42ch;
+  line-height: 1.4;
+}
+
+/**
+ * Sección "Trabajamos con tecnologías diseñadas para escalar contigo":
+ * fondo negro (.about-wrap) y luego celeste (.about-second-bg).
+ */
+.about-wrap {
+  background-color: #000000 !important;
+  background-image: none !important;
+}
+
+.about-second-bg {
+  background-color: #5987d2 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Todas las letras de la sección about: blancas en ambas partes (negro y celeste) */
+.about-sticky-wrap .about-content,
+.about-sticky-wrap .about-content *,
+.about-sticky-wrap .big-text.about,
+.about-sticky-wrap .big-text-wrap,
+.about-sticky-wrap .line-link-text,
+.about-sticky-wrap .line-link-wrap,
+.about-sticky-wrap .button-slide-text,
+.about-wrap .about-content,
+.about-wrap .about-content *,
+.about-wrap .big-text.about,
+.about-wrap .big-text-wrap,
+.about-wrap .line-link-text,
+.about-wrap .line-link-wrap,
+.about-wrap .button-slide-text {
+  color: #ffffff !important;
+}
+
+/* Texto blanco sobre el bloque celeste (por si algún contenido se superpone) */
+.about-second-bg,
+.about-second-bg * {
+  color: #ffffff !important;
+}
+
+/* Descripción de Servicios por si se superpone al bloque azul */
+.project-card-block .project-desc-wrap,
+.project-card-block .project-desc-wrap .medium-big-text,
+.project-card-block .project-desc-wrap .small-text {
+  color: #ffffff !important;
+}
+
+/**
+ * ¿Cómo lo hacemos? - Card "100% comprometidos contigo": fondo negro, letra blanca.
+ */
+.why-us-card-100 {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.why-us-card-100 .medium-text,
+.why-us-card-100 .why-us-desc,
+.why-us-card-100 .why-us-desc p {
+  color: #ffffff !important;
+}
+
+/* Mostrar solo los 2 testimonios (t-1 y t-2); ocultar t-3 y t-4 */
+.single-big-testimonial.t-3,
+.single-big-testimonial.t-4 {
+  display: none !important;
+}
+
+/**
+ * Footer nuevo (4 columnas: marca, Menú, Soporte, Empresa)
+ * Fondo negro, texto blanco, como en la referencia.
+ */
+.footer-new.main-section.footer {
+  background-color: #000000 !important;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.footer-new-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
+  gap: 3rem 4rem;
+  align-items: start;
+  color: #ffffff;
+}
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.footer-brand {
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+.footer-new-logo {
+  width: 140px;
+  height: auto;
+  display: block;
+}
+.footer-tagline {
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ffffff;
+  margin: 0;
+  max-width: 20ch;
+}
+.footer-tagline-line2 {
+  font-weight: 600;
+}
+.footer-col-title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
+  margin: 0 0 0.25rem 0;
+}
+.footer-links,
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.footer-link-item {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: opacity 0.2s;
+}
+.footer-link-item:hover {
+  opacity: 0.85;
+}
+.footer-link-underline {
+  text-decoration: underline;
+}
+.footer-address {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ffffff;
+  margin: 0;
+}
+@media (max-width: 991px) {
+  .footer-new-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 479px) {
+  .footer-new-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
 }
