@@ -227,13 +227,26 @@ body {
   display: none !important;
 }
 
+/* Efecto 3D de la plantilla: perspectiva y preserve-3d para el giro de testimonios */
+#testimonial .testimonial-rotate {
+  transform-style: preserve-3d !important;
+}
+#testimonial .testimonial-camera {
+  perspective: 100vw;
+  transform-style: preserve-3d;
+}
+/* Subir el bloque de testimonios (foto/muñequito menos abajo): menos margen superior */
+#testimonial .testimonial-sticky-wrap {
+  margin-top: 8vw !important;
+}
+
 /**
  * Footer nuevo (4 columnas: marca, Menú, Soporte, Empresa)
  * Fondo negro, texto blanco, como en la referencia.
  */
 .footer-new.main-section.footer {
   background-color: #000000 !important;
-  padding-top: 4rem;
+  padding-top: 2rem;
   padding-bottom: 4rem;
 }
 .footer-new-inner {
