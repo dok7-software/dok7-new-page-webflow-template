@@ -57,24 +57,13 @@ body {
   background-color: var(--azul-dok7, #182547);
 }
 
-/* Sección Servicios: fondo negro extendido arriba para que se vean "Servicios" y "MVP" */
+/* Sección Servicios (#work-init): sin margen negativo para que se vean "Servicios", la imagen y "MVP" */
 #work-init.main-section.initial-work {
   min-height: auto;
   overflow: visible !important;
-  padding-top: 40vh !important;
-  margin-top: -140vh !important; /* negro extendido arriba */
+  padding-top: 0 !important;
+  margin-top: 0 !important;
   position: relative;
-}
-/* Barra negra que se extiende por encima de la sección (no se recorta) */
-#work-init.main-section.initial-work::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: 40vh;
-  background-color: #000000;
-  pointer-events: none;
 }
 #work-init .main-container,
 #work-init .w-container {
@@ -90,11 +79,16 @@ body {
   position: relative !important;
   inset: unset !important;
   z-index: 2;
+  margin-top: 2.5rem !important;
   margin-bottom: 0.5rem;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  width: 100%;
 }
 #work-init .initial-work-title-wrap .big-text {
   color: #ffffff !important;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  text-align: left !important;
 }
 
 /* Texto de cada servicio debajo de su imagen (no superpuesto) */
@@ -106,11 +100,10 @@ body {
   inset: unset !important;
   margin-top: 2rem;
 }
+/* Primera imagen: mismas dimensiones base que la plantilla para el efecto shrink (100vw/100vh → 68vh) */
 #work-init .initial-work-image {
-  width: 100%;
-  max-height: 70vh;
+  width: 100vw !important;
   object-fit: cover;
-  height: auto !important;
 }
 #work-init .initial-work-text,
 #work .project-work-text {
@@ -127,18 +120,9 @@ body {
   height: auto !important;
   min-height: 100vh;
 }
-#work .project-work-image-wrap-2 {
-  position: relative !important;
-  flex-flow: column !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-  inset: unset !important;
-}
-#work .project-work-image-2 {
-  width: 100%;
-  max-height: 70vh;
-  object-fit: cover;
-}
+
+/* Las imágenes .project-work-image-2 usan el layout original (absolute, 100vw/100vh)
+   para que funcionen el efecto de scroll de la plantilla (shrink a 68vh) y GSAP. */
 
 /* Descripciones en la sección Servicios (work-init / work) */
 .service-desc {
@@ -149,18 +133,47 @@ body {
 
 /**
  * Sección "Trabajamos con tecnologías diseñadas para escalar contigo":
- * fondo negro (.about-wrap) y luego celeste (.about-second-bg).
+ * Solo dos fondos: negro y celeste. Wrapper con gradiente; texto sticky encima.
  */
-.about-wrap {
-  background-color: #000000 !important;
-  background-image: none !important;
+/* Wrapper 200vh: mitad negra, mitad celeste. El texto hace sticky dentro y solo ve estos dos fondos. */
+.about-phases-wrapper {
+  height: 200vh !important;
+  background: linear-gradient(to bottom, #000000 0%, #000000 50%, #5987d2 50%, #5987d2 100%) !important;
+  position: relative !important;
 }
 
-.about-second-bg {
-  background-color: #5987d2 !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  mix-blend-mode: normal !important;
+/* Ocultar los bloques sueltos de fondo para no sumar gris ni azul */
+.about-bg-hidden.about-wrap,
+.about-bg-hidden.about-second-bg {
+  display: none !important;
+}
+
+/* Altura solo del contenido (wrapper 200vh + project-card-block), sin hueco gris */
+.about-inner-sticky {
+  height: auto !important;
+}
+
+/* Sin fondo gris en la section: solo el gradiente del wrapper */
+.main-section.about {
+  background-color: transparent !important;
+}
+
+/* Capa de texto siempre encima: sticky dentro del wrapper (solo 200vh = negro + celeste) */
+.about-text-layer {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 2 !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+
+.about-text-layer .about-inner-wrap {
+  pointer-events: auto !important;
 }
 
 /* Todas las letras de la sección about: blancas en ambas partes (negro y celeste) */
@@ -289,6 +302,15 @@ body {
 @media (max-width: 991px) {
   .footer-new-inner {
     grid-template-columns: 1fr 1fr;
+  }
+  /* En móvil: un solo bloque negro, sin gradiente largo */
+  .about-phases-wrapper {
+    height: auto !important;
+    min-height: 100vh !important;
+    background: #000000 !important;
+  }
+  .about-text-layer {
+    background-color: transparent !important;
   }
 }
 @media (max-width: 479px) {

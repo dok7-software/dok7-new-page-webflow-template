@@ -3408,7 +3408,6 @@ figure {
 
 .about-inner-sticky {
   grid-column-gap: 25vw;
-  grid-row-gap: 25vw;
   flex-flow: column;
   height: 600vh;
   display: flex;

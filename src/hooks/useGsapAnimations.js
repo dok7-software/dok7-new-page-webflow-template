@@ -234,36 +234,72 @@ export function useGsapAnimations() {
     });
 
     // Work Section - Shrink de imágenes ligado al scroll (100vh → 68vh)
+    const workSectionTriggers = [];
     const initialWorkImage = document.querySelector('.initial-work-image');
     let workInitScrollTrigger = null;
     if (initialWorkImage) {
+      const workInitTrigger = '#work-init';
       const tween = gsap.to(initialWorkImage, {
         height: '68vh',
         ease: 'none',
         scrollTrigger: {
-          trigger: '#work-init',
+          trigger: workInitTrigger,
           start: 'top bottom',
           end: 'center center',
           scrub: 1.5,
         },
       });
       workInitScrollTrigger = tween.scrollTrigger;
+      // Mismo efecto que la segunda imagen: padding y border-radius al hacer scroll
+      const initialImageWrap = initialWorkImage.closest('.initial-work-image-wrap');
+      if (initialImageWrap) {
+        const varsTween = gsap.to(initialImageWrap, {
+          '--work-padding': '3vw',
+          '--block-image-radius': '1vw',
+          ease: 'none',
+          scrollTrigger: {
+            trigger: workInitTrigger,
+            start: 'top bottom',
+            end: 'center center',
+            scrub: 1.5,
+          },
+        });
+        if (varsTween.scrollTrigger) workSectionTriggers.push(varsTween.scrollTrigger);
+      }
     }
     const projectWorkImages = document.querySelectorAll('.project-work-image, .project-work-image-2');
-    const workSectionTriggers = [];
     projectWorkImages.forEach((img) => {
-      const wrap = img.closest('.project-sticky');
+      const stickyWrap = img.closest('.project-sticky');
+      const imageWrap = img.closest('.project-work-image-wrap-2, .project-work-image-wrap');
+      const trigger = stickyWrap || img;
       const tween = gsap.to(img, {
         height: '68vh',
         ease: 'none',
         scrollTrigger: {
-          trigger: wrap || img,
+          trigger,
           start: 'top bottom',
           end: 'center center',
           scrub: 1.5,
         },
       });
       if (tween.scrollTrigger) workSectionTriggers.push(tween.scrollTrigger);
+      // Efecto de la plantilla: padding y border-radius al hacer scroll (como Webflow a-105)
+      if (imageWrap) {
+        const varsTween = gsap.to(imageWrap, {
+          '--work-padding-3': '3vw',
+          '--work-image-radius-3': '1vw',
+          '--work-padding-2': '3vw',
+          '--work-image-radius-2': '1vw',
+          ease: 'none',
+          scrollTrigger: {
+            trigger,
+            start: 'top bottom',
+            end: 'center center',
+            scrub: 1.5,
+          },
+        });
+        if (varsTween.scrollTrigger) workSectionTriggers.push(varsTween.scrollTrigger);
+      }
     });
 
     // Testimonial Section - Giro 3D horizontal (rotateY 0° → 180°) ligado al scroll (derecha a izquierda)
