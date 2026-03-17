@@ -302,28 +302,28 @@ export function useGsapAnimations() {
       }
     });
 
-    // Testimonial Section: primero se ve el testimonial 1 completo, luego gira hacia el 2 hasta mostrarlo por completo
+    // Testimonial Section: t1 visible para leer → giro → t2 (Alexander) visible mucho rato para leerlo entero antes de salir
     const testimonialRotateEl = document.querySelector('.testimonial-rotate');
     let testimonialScrollTrigger;
     if (testimonialRotateEl) {
       const t1Front = document.querySelectorAll('#testimonial .single-big-testimonial.t-1 .review-emphasis.front, #testimonial .single-big-testimonial.t-1 .name-designation.front, #testimonial .single-big-testimonial.t-1 .testiminoal-content.front, #testimonial .single-big-testimonial.t-1 .testimonial-photo.var-big-1');
       const t2Back = document.querySelectorAll('#testimonial .single-big-testimonial.t-2 .review-emphasis.back-2, #testimonial .single-big-testimonial.t-2 .name-designation.back-2, #testimonial .single-big-testimonial.t-2 .testiminoal-content.back-2, #testimonial .single-big-testimonial.t-2 .testimonial-photo.var-big-2');
       gsap.set(t2Back, { opacity: 0 });
-      const holdStart = 0.5;  // Primer tramo: testimonial 1 fijo para leerlo.
-      const rotationDuration = 0.4;  // Tramo central: giro y crossfade.
-      const holdEnd = 1.0;  // Último tramo: testimonial 2 fijo más tiempo para leerlo.
+      const holdStart = 0.8;
+      const rotationDuration = 0.2;
+      const holdEnd = 0.8;
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: '#testimonial',
           start: 'top 75%',
-          end: 'bottom 15%',
+          end: 'bottom top',
           scrub: 1.2,
         },
       });
       tl.to(testimonialRotateEl, { rotateY: 180, ease: 'none', force3D: true, duration: rotationDuration }, holdStart);
       tl.to(t1Front, { opacity: 0, ease: 'none', duration: rotationDuration }, holdStart);
       tl.fromTo(t2Back, { opacity: 0 }, { opacity: 1, ease: 'none', duration: rotationDuration }, holdStart);
-      // La timeline termina en holdStart + rotationDuration + holdEnd: el último tramo de scroll deja el 2º testimonial quieto.
+      tl.set({}, {}, holdStart + rotationDuration + holdEnd);
       testimonialScrollTrigger = tl.scrollTrigger;
     }
 

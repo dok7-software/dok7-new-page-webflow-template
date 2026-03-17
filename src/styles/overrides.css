@@ -228,6 +228,37 @@ body {
 }
 
 /* Efecto 3D de la plantilla: perspectiva y preserve-3d para el giro de testimonios */
+/* Sección testimonios: fondo negro para que el título con gradiente se vea bien */
+.main-section.testimonial {
+  background-color: #000000 !important;
+  overflow: visible !important;
+}
+#testimonial .main-container {
+  overflow: visible !important;
+}
+
+/* Título testimonios: gradiente horizontal (dorado → lavanda → azul) */
+.testimonial-title-gradient {
+  background: linear-gradient(
+    90deg,
+    #d4b896 0%,
+    #c9b8d4 45%,
+    #9ba8c8 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Evitar que el texto del testimonio se corte: overflow visible en toda la cadena */
+#testimonial .testimonial-wrap,
+#testimonial .testimonial-sticky-wrap,
+#testimonial .testimonial-camera,
+#testimonial .testimonial-rotate,
+#testimonial .single-big-testimonial {
+  overflow: visible !important;
+}
+
 #testimonial .testimonial-rotate {
   transform-style: preserve-3d !important;
 }
@@ -235,77 +266,100 @@ body {
   perspective: 100vw;
   transform-style: preserve-3d;
 }
-/* Subir el bloque de testimonios (foto/muñequito menos abajo): menos margen superior */
-#testimonial .testimonial-sticky-wrap {
-  margin-top: 8vw !important;
+
+/* Sección CTA "Hagamos realidad la solución": más margen superior */
+#cta.main-section {
+  padding-top: 5rem !important;
 }
 
 /**
- * Footer nuevo (4 columnas: marca, Menú, Soporte, Empresa)
- * Fondo negro, texto blanco, como en la referencia.
+ * Footer: 4 columnas (Marca, Menú, Soporte, Empresa).
+ * Fondo negro, texto blanco. Columna 1: logo + tagline centrado bajo el logo.
  */
 .footer-new.main-section.footer {
   background-color: #000000 !important;
-  padding-top: 2rem;
+  color: #ffffff;
+  padding-top: 4rem;
   padding-bottom: 4rem;
 }
+
 .footer-new-inner {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr 1.2fr;
   gap: 3rem 4rem;
   align-items: start;
-  color: #ffffff;
 }
+
 .footer-col {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
+/* Columna 1: logo arriba, tagline debajo centrado bajo el logo */
 .footer-brand {
   gap: 1.5rem;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
 }
+
+/* Anular Webflow: .footer-logo-link tiene position:absolute; bottom:0 y mueve el logo abajo */
+.footer-brand .footer-logo-link {
+  position: static !important;
+  display: block;
+  order: -1; /* por si acaso: logo primero en la columna */
+}
+
 .footer-new-logo {
   width: 140px;
   height: auto;
   display: block;
 }
+
 .footer-tagline {
   font-family: inherit;
   font-size: 1rem;
   line-height: 1.5;
   color: #ffffff;
   margin: 0;
-  max-width: 20ch;
+  max-width: 22ch;
 }
+
 .footer-tagline-line2 {
   font-weight: 600;
 }
+
+/* Títulos de columnas 2, 3, 4 */
 .footer-col-title {
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: #ffffff;
-  margin: 0 0 0.25rem 0;
+  margin: 0 0 0.5rem 0;
 }
+
 .footer-links,
 .footer-contact {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.5rem;
 }
+
 .footer-link-item {
   color: #ffffff;
   text-decoration: none;
   font-size: 0.95rem;
   transition: opacity 0.2s;
 }
+
 .footer-link-item:hover {
   opacity: 0.85;
 }
+
 .footer-link-underline {
   text-decoration: underline;
 }
+
 .footer-address {
   font-size: 0.95rem;
   line-height: 1.5;
