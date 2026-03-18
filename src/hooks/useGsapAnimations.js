@@ -101,23 +101,43 @@ export function useGsapAnimations() {
     const aboutSmallDesc = document.querySelectorAll('.small-desc');
     const aboutBigText = document.querySelectorAll('.big-text.about');
     let aboutRevealTrigger = null;
-    if (document.querySelector('#about') || document.querySelector('.about-scroll-trigger')) {
-      const triggerEl = document.querySelector('.about-wrap') || document.querySelector('#about');
-      if (triggerEl && (aboutCardInner || aboutBigDesc.length || aboutSmallDesc.length)) {
-        aboutRevealTrigger = ScrollTrigger.create({
-          trigger: triggerEl,
-          start: 'top 75%',
-          once: true,
-          onEnter: () => {
-            if (aboutCardInner) {
-              gsap.to(aboutCardInner, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' });
+    const aboutTriggerEl = document.querySelector('.about-text-layer') || document.querySelector('.about-phases-wrapper') || document.querySelector('#about');
+    if (aboutTriggerEl) {
+      aboutRevealTrigger = ScrollTrigger.create({
+        trigger: aboutTriggerEl,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          if (aboutCardInner) {
+            gsap.to(aboutCardInner, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' });
+          }
+          aboutBigDesc.forEach((el) => gsap.to(el, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.2 }));
+          aboutSmallDesc.forEach((el) => gsap.to(el, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 }));
+          aboutBigText.forEach((el) => gsap.to(el, { y: 0, duration: 0.6, ease: 'power2.out' }));
+
+          const aboutImageResize = document.querySelector('.about-image-resize');
+          if (aboutImageResize) {
+            gsap.fromTo(aboutImageResize, { width: '0vw' }, { width: '16vw', duration: 1, ease: 'power2.out', delay: 0.3 });
+            const aboutImageWrap = aboutImageResize.querySelector('.about-image-wrap');
+            if (aboutImageWrap) gsap.fromTo(aboutImageWrap, { opacity: 0 }, { opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.5 });
+          }
+          const lottieWrap = document.querySelector('#about .lottie-wrap');
+          if (lottieWrap) {
+            gsap.fromTo(lottieWrap, { width: '0vw' }, { width: '10vw', duration: 1, ease: 'power2.out', delay: 0.4 });
+            const arrowEl = lottieWrap.querySelector('.lottie-arrow');
+            if (arrowEl) {
+              gsap.to(arrowEl, {
+                x: 15,
+                duration: 0.6,
+                ease: 'power1.inOut',
+                repeat: -1,
+                yoyo: true,
+                delay: 1,
+              });
             }
-            aboutBigDesc.forEach((el) => gsap.to(el, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.2 }));
-            aboutSmallDesc.forEach((el) => gsap.to(el, { y: 0, opacity: 1, duration: 0.7, ease: 'power2.out', delay: 0.35 }));
-            aboutBigText.forEach((el) => gsap.to(el, { y: 0, duration: 0.6, ease: 'power2.out' }));
-          },
-        });
-      }
+          }
+        },
+      });
     }
 
     // About Section - Image Card Loop
@@ -250,7 +270,6 @@ export function useGsapAnimations() {
         },
       });
       workInitScrollTrigger = tween.scrollTrigger;
-      // Mismo efecto que la segunda imagen: padding y border-radius al hacer scroll
       const initialImageWrap = initialWorkImage.closest('.initial-work-image-wrap');
       if (initialImageWrap) {
         const varsTween = gsap.to(initialImageWrap, {

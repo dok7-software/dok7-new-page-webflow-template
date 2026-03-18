@@ -28,6 +28,14 @@ function App() {
       <TestimonialSection />
       <CTASection />
       <FooterSection />
+      <a
+        href="https://wa.me/34695384318"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="whatsapp-fab"
+      >
+        Conversemos
+      </a>
     </>
   );
 }

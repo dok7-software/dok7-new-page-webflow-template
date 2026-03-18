@@ -26,7 +26,10 @@ body {
 }
 
 /* Que el título completo "Soluciones que importan" se vea hasta el final (no cortado) */
-.sticky-wrap,
+.sticky-wrap {
+  height: 200vh !important;
+  overflow: visible !important;
+}
 .sticky-hero {
   overflow: visible !important;
 }
@@ -34,6 +37,29 @@ body {
 .hero-moving-title,
 .hero-title-wrap {
   overflow: visible !important;
+}
+
+/* "que importan": se colorea de negro desde la mitad al hacer scroll (variable --hero-que-importan-progress 0->1) */
+.hero-que-importan {
+  --hero-que-importan-progress: 0;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin: 0;
+  display: inline-block;
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff calc(50% - 50% * var(--hero-que-importan-progress, 0)),
+    #000000 calc(50% - 50% * var(--hero-que-importan-progress, 0)),
+    #000000 calc(50% + 50% * var(--hero-que-importan-progress, 0)),
+    #ffffff calc(50% + 50% * var(--hero-que-importan-progress, 0)),
+    #ffffff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 #hero .main-container,
@@ -49,15 +75,15 @@ body {
 }
 
 /**
- * Override: evita que el contenido de .about-wrap se vea detrás
- * de la sección Service (.project-card-block). El bloque tenía
+ * Override: evita que el contenido de .about-wrap se vea detras
+ * de la seccion Service (.project-card-block). El bloque tenia
  * background transparent y el about-wrap quedaba visible al hacer scroll.
  */
 .project-card-block {
   background-color: var(--azul-dok7, #182547);
 }
 
-/* Sección Servicios (#work-init): sin margen negativo para que se vean "Servicios", la imagen y "MVP" */
+/* Seccion Servicios (#work-init): sin margen negativo para que se vean "Servicios", la imagen y "MVP" */
 #work-init.main-section.initial-work {
   min-height: auto;
   overflow: visible !important;
@@ -100,7 +126,7 @@ body {
   inset: unset !important;
   margin-top: 2rem;
 }
-/* Primera imagen: mismas dimensiones base que la plantilla para el efecto shrink (100vw/100vh → 68vh) */
+/* Primera imagen: mismas dimensiones base que la plantilla para el efecto shrink (100vw/100vh -> 68vh) */
 #work-init .initial-work-image {
   width: 100vw !important;
   object-fit: cover;
@@ -121,10 +147,10 @@ body {
   min-height: 100vh;
 }
 
-/* Las imágenes .project-work-image-2 usan el layout original (absolute, 100vw/100vh)
+/* Las imagenes .project-work-image-2 usan el layout original (absolute, 100vw/100vh)
    para que funcionen el efecto de scroll de la plantilla (shrink a 68vh) y GSAP. */
 
-/* Descripciones en la sección Servicios (work-init / work) */
+/* Descripciones en la seccion Servicios (work-init / work) */
 .service-desc {
   margin-top: 0.5em;
   max-width: 42ch;
@@ -132,33 +158,28 @@ body {
 }
 
 /**
- * Sección "Trabajamos con tecnologías diseñadas para escalar contigo":
+ * Seccion "Trabajamos con tecnologias disenadas para escalar contigo":
  * Solo dos fondos: negro y celeste. Wrapper con gradiente; texto sticky encima.
  */
-/* Wrapper 200vh: mitad negra, mitad celeste. El texto hace sticky dentro y solo ve estos dos fondos. */
 .about-phases-wrapper {
   height: 200vh !important;
   background: linear-gradient(to bottom, #000000 0%, #000000 50%, #5987d2 50%, #5987d2 100%) !important;
   position: relative !important;
 }
 
-/* Ocultar los bloques sueltos de fondo para no sumar gris ni azul */
 .about-bg-hidden.about-wrap,
 .about-bg-hidden.about-second-bg {
   display: none !important;
 }
 
-/* Altura solo del contenido (wrapper 200vh + project-card-block), sin hueco gris */
 .about-inner-sticky {
   height: auto !important;
 }
 
-/* Sin fondo gris en la section: solo el gradiente del wrapper */
 .main-section.about {
   background-color: transparent !important;
 }
 
-/* Capa de texto siempre encima: sticky dentro del wrapper (solo 200vh = negro + celeste) */
 .about-text-layer {
   position: sticky !important;
   top: 0 !important;
@@ -176,7 +197,6 @@ body {
   pointer-events: auto !important;
 }
 
-/* Todas las letras de la sección about: blancas en ambas partes (negro y celeste) */
 .about-sticky-wrap .about-content,
 .about-sticky-wrap .about-content *,
 .about-sticky-wrap .big-text.about,
@@ -194,13 +214,11 @@ body {
   color: #ffffff !important;
 }
 
-/* Texto blanco sobre el bloque celeste (por si algún contenido se superpone) */
 .about-second-bg,
 .about-second-bg * {
   color: #ffffff !important;
 }
 
-/* Descripción de Servicios por si se superpone al bloque azul */
 .project-card-block .project-desc-wrap,
 .project-card-block .project-desc-wrap .medium-big-text,
 .project-card-block .project-desc-wrap .small-text {
@@ -208,7 +226,7 @@ body {
 }
 
 /**
- * ¿Cómo lo hacemos? - Card "100% comprometidos contigo": fondo negro, letra blanca.
+ * Como lo hacemos? - Card "100% comprometidos contigo": fondo negro, letra blanca.
  */
 .why-us-card-100 {
   background-color: #000000 !important;
@@ -221,14 +239,41 @@ body {
   color: #ffffff !important;
 }
 
+/* Como lo hacemos?: iconos 1-4 antes del titulo de cada card */
+.why-us-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.why-us-step-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  flex: 0 0 auto;
+  display: block;
+}
+
+/* Sangria: que la descripcion no quede debajo del icono numerico */
+.why-us-card:not(.why-us-card-100) .why-us-desc {
+  padding-left: calc(2.25rem + 0.75rem);
+}
+
+/* La 4ta card (Acompanar la evolucion) debe ser igual a las primeras: blanca y texto negro */
+.why-us-card.fourth:not(.why-us-card-100) {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+}
+.why-us-card.fourth:not(.why-us-card-100) .medium-text,
+.why-us-card.fourth:not(.why-us-card-100) .why-us-desc,
+.why-us-card.fourth:not(.why-us-card-100) .why-us-desc p {
+  color: #111111 !important;
+}
+
 /* Mostrar solo los 2 testimonios (t-1 y t-2); ocultar t-3 y t-4 */
 .single-big-testimonial.t-3,
 .single-big-testimonial.t-4 {
   display: none !important;
 }
 
-/* Efecto 3D de la plantilla: perspectiva y preserve-3d para el giro de testimonios */
-/* Sección testimonios: fondo negro para que el título con gradiente se vea bien */
 .main-section.testimonial {
   background-color: #000000 !important;
   overflow: visible !important;
@@ -237,7 +282,6 @@ body {
   overflow: visible !important;
 }
 
-/* Título testimonios: gradiente horizontal (dorado → lavanda → azul) */
 .testimonial-title-gradient {
   background: linear-gradient(
     90deg,
@@ -250,7 +294,6 @@ body {
   color: transparent;
 }
 
-/* Evitar que el texto del testimonio se corte: overflow visible en toda la cadena */
 #testimonial .testimonial-wrap,
 #testimonial .testimonial-sticky-wrap,
 #testimonial .testimonial-camera,
@@ -267,14 +310,13 @@ body {
   transform-style: preserve-3d;
 }
 
-/* Sección CTA "Hagamos realidad la solución": más margen superior */
+/* Seccion CTA "Hagamos realidad la solucion": mas margen superior */
 #cta.main-section {
   padding-top: 5rem !important;
 }
 
 /**
- * Footer: 4 columnas (Marca, Menú, Soporte, Empresa).
- * Fondo negro, texto blanco. Columna 1: logo + tagline centrado bajo el logo.
+ * Footer: 4 columnas (Marca, Menu, Soporte, Empresa).
  */
 .footer-new.main-section.footer {
   background-color: #000000 !important;
@@ -296,18 +338,16 @@ body {
   gap: 1rem;
 }
 
-/* Columna 1: logo arriba, tagline debajo centrado bajo el logo */
 .footer-brand {
   gap: 1.5rem;
   align-items: center;
   text-align: center;
 }
 
-/* Anular Webflow: .footer-logo-link tiene position:absolute; bottom:0 y mueve el logo abajo */
 .footer-brand .footer-logo-link {
   position: static !important;
   display: block;
-  order: -1; /* por si acaso: logo primero en la columna */
+  order: -1;
 }
 
 .footer-new-logo {
@@ -329,7 +369,6 @@ body {
   font-weight: 600;
 }
 
-/* Títulos de columnas 2, 3, 4 */
 .footer-col-title {
   font-size: 1rem;
   font-weight: 600;
@@ -366,11 +405,33 @@ body {
   color: #ffffff;
   margin: 0;
 }
+/* Botón flotante WhatsApp */
+.whatsapp-fab {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 1.6vw 2.2vw;
+  border-radius: 99vw;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.whatsapp-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+}
+
 @media (max-width: 991px) {
   .footer-new-inner {
     grid-template-columns: 1fr 1fr;
   }
-  /* En móvil: un solo bloque negro, sin gradiente largo */
   .about-phases-wrapper {
     height: auto !important;
     min-height: 100vh !important;
