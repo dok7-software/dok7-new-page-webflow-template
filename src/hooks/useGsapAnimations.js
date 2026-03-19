@@ -288,21 +288,19 @@ export function useGsapAnimations() {
     }
     const projectWorkImages = document.querySelectorAll('.project-work-image, .project-work-image-2');
     projectWorkImages.forEach((img) => {
-      const stickyWrap = img.closest('.project-sticky');
+      const section = img.closest('section') || img;
       const imageWrap = img.closest('.project-work-image-wrap-2, .project-work-image-wrap');
-      const trigger = stickyWrap || img;
       const tween = gsap.to(img, {
         height: '68vh',
         ease: 'none',
         scrollTrigger: {
-          trigger,
+          trigger: section,
           start: 'top bottom',
           end: 'center center',
           scrub: 1.5,
         },
       });
       if (tween.scrollTrigger) workSectionTriggers.push(tween.scrollTrigger);
-      // Efecto de la plantilla: padding y border-radius al hacer scroll (como Webflow a-105)
       if (imageWrap) {
         const varsTween = gsap.to(imageWrap, {
           '--work-padding-3': '3vw',
@@ -311,7 +309,7 @@ export function useGsapAnimations() {
           '--work-image-radius-2': '1vw',
           ease: 'none',
           scrollTrigger: {
-            trigger,
+            trigger: section,
             start: 'top bottom',
             end: 'center center',
             scrub: 1.5,

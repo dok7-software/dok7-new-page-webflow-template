@@ -10,12 +10,15 @@ body {
 }
 
 /**
- * Hero "Soluciones que importan": fondo blanco, sin imagen de fondo.
+ * Hero "Soluciones que importan": imagen de fondo.
  */
 .main-section.hero,
 #hero {
-  background-color: #ffffff !important;
-  background-image: none !important;
+  background-color: transparent !important;
+  background-image: url("/assets/images/imagenes/Fondo header.png") !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
   overflow: visible !important;
 }
 
@@ -39,7 +42,7 @@ body {
   overflow: visible !important;
 }
 
-/* "que importan": se colorea de negro desde la mitad al hacer scroll (variable --hero-que-importan-progress 0->1) */
+/* "que importan": se colorea de azul desde la mitad al hacer scroll (variable --hero-que-importan-progress 0->1) */
 .hero-que-importan {
   --hero-que-importan-progress: 0;
   font-family: inherit;
@@ -52,14 +55,32 @@ body {
     90deg,
     #ffffff 0%,
     #ffffff calc(50% - 50% * var(--hero-que-importan-progress, 0)),
-    #000000 calc(50% - 50% * var(--hero-que-importan-progress, 0)),
-    #000000 calc(50% + 50% * var(--hero-que-importan-progress, 0)),
+    var(--azul-dok7, #182547) calc(50% - 50% * var(--hero-que-importan-progress, 0)),
+    var(--azul-dok7, #182547) calc(50% + 50% * var(--hero-que-importan-progress, 0)),
     #ffffff calc(50% + 50% * var(--hero-que-importan-progress, 0)),
     #ffffff 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+#hero .hero-title-wrap {
+  color: #ffffff !important; /* gris -> blanco */
+}
+
+#hero .hero-title-shade {
+  color: var(--azul-dok7, #182547) !important; /* negro -> azul oscuro */
+}
+
+/* "Soluciones" (texto negro original): dejarlo en azul oscuro del proyecto */
+#hero .default-title {
+  color: var(--azul-dok7, #182547) !important;
+}
+
+/* Gris en el subtitulo del hero -> blanco */
+#hero .hero-desc-wrap .small-text {
+  color: #ffffff !important;
 }
 
 #hero .main-container,
@@ -423,6 +444,32 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .whatsapp-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  color: #ffffff;
+}
+
+/* CTA inline dentro de la sección (misma estética que whatsapp-fab) */
+.whatsapp-inline-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  background-color: #000000;
+  color: #ffffff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 1.6vw 2.2vw;
+  border-radius: 99vw;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  margin: 0 1vw;
+  flex: 0 0 auto;
+}
+.whatsapp-inline-cta:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
   color: #ffffff;

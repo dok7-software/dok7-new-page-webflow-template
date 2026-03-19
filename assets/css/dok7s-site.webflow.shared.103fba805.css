@@ -3635,8 +3635,7 @@ figure {
   height: 100vh;
   margin-top: 0;
   display: flex;
-  position: sticky;
-  top: 5vw;
+  position: relative;
   overflow: hidden;
 }
 
@@ -3670,8 +3669,7 @@ figure {
 }
 
 .project-sticky {
-  height: 250vh;
-  margin-bottom: 10vh;
+  height: auto;
   position: relative;
 }
 
@@ -3707,7 +3705,7 @@ figure {
   grid-row-gap: 2vw;
   flex-flow: column;
   width: 50%;
-  padding-top: 75vw;
+  padding-top: 37.5vw;
   padding-bottom: 10vw;
   display: flex;
 }
