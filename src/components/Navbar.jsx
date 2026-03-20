@@ -1,10 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const ASSETS = '/assets';
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const pathname = location.pathname.replace(/\/$/, '') || '/';
+  const isStandaloneLightPage =
+    pathname === '/contacto' ||
+    pathname === '/aviso-legal' ||
+    pathname === '/politica-de-privacidad' ||
+    pathname === '/politica-de-cookies';
+
+  useEffect(() => {
+    if (isStandaloneLightPage) {
+      setScrolled(true);
+      return undefined;
+    }
+
+    const about = document.getElementById('about');
+    if (!about) return undefined;
+
+    const update = () => {
+      const top = about.getBoundingClientRect().top;
+      setScrolled(top <= 88);
+    };
+
+    update();
+    const thresholds = Array.from({ length: 41 }, (_, i) => i / 40);
+    const io = new IntersectionObserver(() => update(), { threshold: thresholds });
+    io.observe(about);
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
+
+    let lenisAttached = null;
+    let rafId = 0;
+    let cancelled = false;
+    let lenisAttempts = 0;
+    const attachLenis = () => {
+      if (cancelled) return;
+      const l = window.__dok7Lenis;
+      if (l && typeof l.on === 'function') {
+        l.on('scroll', update);
+        lenisAttached = l;
+        return;
+      }
+      if (lenisAttempts++ > 240) return;
+      rafId = requestAnimationFrame(attachLenis);
+    };
+    attachLenis();
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+      io.disconnect();
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+      if (lenisAttached && typeof lenisAttached.off === 'function') {
+        lenisAttached.off('scroll', update);
+      }
+    };
+  }, [isStandaloneLightPage, location.pathname]);
+
   return (
-    <section className="header-section var-1">
+    <section className={`header-section var-1 site-header${scrolled ? ' site-header--scrolled' : ''}`}>
       <div
         data-animation="over-right"
         data-collapse="all"
@@ -15,10 +75,10 @@ export default function Navbar() {
         className="navbar-content w-nav"
       >
         <div className="navbar-wrapper">
-          <a
-            href="#"
+          <Link
+            to="/"
             id="w-node-_46886c73-715f-60b5-8817-d67c53d4e84f-53d4e84c"
-            aria-current="page"
+            aria-current={location.pathname === '/' ? 'page' : undefined}
             className="navbar-logo-dark w-nav-brand w--current"
             aria-label="home"
           >
@@ -30,18 +90,18 @@ export default function Navbar() {
               loading="lazy"
               className="logo-normal"
             />
-          </a>
+          </Link>
           <div id="w-node-_46886c73-715f-60b5-8817-d67c53d4e851-53d4e84c" className="navbar-link-wrap">
-            <a href="#about" className="nav-link w-inline-block"><div className="small-text">Nosotros</div></a>
+            <Link to="/#about" className="nav-link w-inline-block"><div className="small-text">Nosotros</div></Link>
           </div>
           <div className="navbar-link-wrap">
-            <a href="#Service" className="nav-link w-inline-block"><div className="small-text">Servicios</div></a>
+            <Link to="/#Service" className="nav-link w-inline-block"><div className="small-text">Servicios</div></Link>
           </div>
           <div className="navbar-link-wrap">
-            <a href="#work" className="nav-link w-inline-block"><div className="small-text">Portafolio</div></a>
+            <Link to="/#work" className="nav-link w-inline-block"><div className="small-text">Portafolio</div></Link>
           </div>
           <div className="navbar-link-wrap">
-            <a href="#cta" className="nav-link w-inline-block"><div className="small-text">Contacto</div></a>
+            <Link to="/contacto" className="nav-link w-inline-block"><div className="small-text">Contacto</div></Link>
           </div>
           <div id="w-node-_46886c73-715f-60b5-8817-d67c53d4e861-53d4e84c" className="navbar-button-wrap visible">
             <div
@@ -81,18 +141,18 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="navbar-menu-wrapper">
-                <a href="#about" data-w-id="46886c73-715f-60b5-8817-d67c53d4e871" className="header-link-wrap navbar w-inline-block">
+                <Link to="/#about" data-w-id="46886c73-715f-60b5-8817-d67c53d4e871" className="header-link-wrap navbar w-inline-block">
                   <div className="link-text"><div className="navbar-link">NOSOTROS<br /></div></div>
-                </a>
-                <a href="#Service" data-w-id="46886c73-715f-60b5-8817-d67c53d4e876" className="header-link-wrap navbar w-inline-block">
+                </Link>
+                <Link to="/#Service" data-w-id="46886c73-715f-60b5-8817-d67c53d4e876" className="header-link-wrap navbar w-inline-block">
                   <div className="link-text"><div className="navbar-link">SERVICIOS</div></div>
-                </a>
-                <a href="#work" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87a" className="header-link-wrap navbar w-inline-block">
+                </Link>
+                <Link to="/#work" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87a" className="header-link-wrap navbar w-inline-block">
                   <div className="link-text"><div className="navbar-link">PORTAFOLIO</div></div>
-                </a>
-                <a href="#cta" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87e" className="header-link-wrap navbar w-inline-block">
+                </Link>
+                <Link to="/contacto" data-w-id="46886c73-715f-60b5-8817-d67c53d4e87e" className="header-link-wrap navbar w-inline-block">
                   <div className="link-text"><div className="navbar-link">CONTACTO</div></div>
-                </a>
+                </Link>
               </div>
             </div>
             <img

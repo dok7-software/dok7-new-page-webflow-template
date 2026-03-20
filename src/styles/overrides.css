@@ -10,6 +10,64 @@ body {
 }
 
 /**
+ * Header fijo: sobre el hero texto blanco; al bajar (sección #about cerca del tope) fondo blanco y texto negro.
+ */
+.header-section.var-1.site-header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9998 !important;
+  width: 100% !important;
+  margin-bottom: 0 !important;
+  padding-top: 2vw !important;
+  padding-bottom: 2vw !important;
+  background-color: transparent !important;
+  transition:
+    background-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.header-section.var-1.site-header.site-header--scrolled {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.header-section.var-1.site-header:not(.site-header--scrolled) .navbar-link-wrap .small-text,
+.header-section.var-1.site-header:not(.site-header--scrolled) .nav-link .small-text {
+  color: #ffffff !important;
+}
+
+.header-section.var-1.site-header:not(.site-header--scrolled) .nav-link:hover .small-text {
+  color: rgba(255, 255, 255, 0.88) !important;
+}
+
+.header-section.var-1.site-header.site-header--scrolled .navbar-link-wrap .small-text,
+.header-section.var-1.site-header.site-header--scrolled .nav-link .small-text {
+  color: #111111 !important;
+}
+
+.header-section.var-1.site-header.site-header--scrolled .nav-link:hover .small-text {
+  color: #000000 !important;
+}
+
+.header-section.var-1.site-header:not(.site-header--scrolled) .navbar-icon:not(.white) {
+  filter: brightness(0) invert(1);
+}
+
+.header-section.var-1.site-header.site-header--scrolled .navbar-icon:not(.white) {
+  filter: none;
+}
+
+.header-section.var-1.site-header:not(.site-header--scrolled) .navbar-content {
+  border-bottom-color: rgba(255, 255, 255, 0.28) !important;
+}
+
+.header-section.var-1.site-header.site-header--scrolled .navbar-content {
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/**
  * Hero "Soluciones que importan": imagen de fondo.
  */
 .main-section.hero,
@@ -97,11 +155,11 @@ body {
 
 /**
  * Override: evita que el contenido de .about-wrap se vea detras
- * de la seccion Service (.project-card-block). El bloque tenia
- * background transparent y el about-wrap quedaba visible al hacer scroll.
+ * de la seccion Service (.project-card-block). Fondo negro en el bloque
+ * de tarjetas + texto "Tecnología clara para las personas...".
  */
 .project-card-block {
-  background-color: var(--azul-dok7, #182547);
+  background-color: #000000 !important;
 }
 
 /* Seccion Servicios (#work-init): sin margen negativo para que se vean "Servicios", la imagen y "MVP" */
@@ -111,13 +169,33 @@ body {
   padding-top: 0 !important;
   margin-top: 0 !important;
   position: relative;
+  background-color: var(--azul-dok7, #182547) !important;
 }
+
+/* Segundo bloque de servicios (Soluciones .NET): mismo fondo azul */
+#work.main-section.work {
+  background-color: var(--azul-dok7, #182547) !important;
+}
+
 #work-init .main-container,
-#work-init .w-container {
+#work-init .w-container,
+#work .main-container,
+#work .w-container {
   overflow: visible !important;
+}
+
+/* Servicios: contenedor a ancho de viewport; el texto usa márgenes 3vw */
+#work-init .w-layout-blockcontainer.main-container,
+#work .w-layout-blockcontainer.main-container {
+  max-width: none !important;
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 #work-init .initial-work-wrap {
   justify-content: flex-start !important;
+  align-items: stretch !important;
+  width: 100%;
   min-height: auto;
   height: auto;
   overflow: visible !important;
@@ -136,13 +214,17 @@ body {
   color: #ffffff !important;
   text-shadow: 0 1px 2px rgba(0,0,0,0.5);
   text-align: left !important;
+  margin-left: 3vw !important;
 }
 
 /* Texto de cada servicio debajo de su imagen (no superpuesto) */
 #work-init .initial-work-image-wrap {
   flex-flow: column !important;
   justify-content: flex-start !important;
-  align-items: flex-start !important;
+  align-items: stretch !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   position: relative !important;
   inset: unset !important;
   margin-top: 2rem;
@@ -157,8 +239,15 @@ body {
   position: relative !important;
   z-index: 2;
   margin-top: 1.5rem !important;
-  padding: 0 3vw !important;
+  padding-left: 3vw !important;
+  padding-right: 3vw !important;
+  padding-top: 0;
+  padding-bottom: 0;
   color: #ffffff !important;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-self: stretch !important;
 }
 
 /* Segundo servicio (#work): permitir que el texto debajo de la imagen se vea */
@@ -166,25 +255,42 @@ body {
   overflow: visible !important;
   height: auto !important;
   min-height: 100vh;
+  align-items: stretch !important;
+}
+
+#work .project-work-image-wrap-2 {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  align-items: stretch !important;
 }
 
 /* Las imagenes .project-work-image-2 usan el layout original (absolute, 100vw/100vh)
    para que funcionen el efecto de scroll de la plantilla (shrink a 68vh) y GSAP. */
 
-/* Descripciones en la seccion Servicios (work-init / work) */
-.service-desc {
+/* Descripciones en la seccion Servicios (work-init / work): ancho completo con márgenes del contenedor (3vw) */
+#work-init .service-desc,
+#work .service-desc {
   margin-top: 0.5em;
-  max-width: 42ch;
-  line-height: 1.4;
+  max-width: none;
+  width: 100%;
+  line-height: 1.45;
+  box-sizing: border-box;
 }
 
 /**
  * Seccion "Trabajamos con tecnologias disenadas para escalar contigo":
- * Solo dos fondos: negro y celeste. Wrapper con gradiente; texto sticky encima.
+ * Fase 1: blanco | Fase 2: celeste. 50%/50%; el texto cambia con GSAP en progress 0.5.
  */
 .about-phases-wrapper {
   height: 200vh !important;
-  background: linear-gradient(to bottom, #000000 0%, #000000 50%, #5987d2 50%, #5987d2 100%) !important;
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #ffffff 50%,
+    var(--celeste-dok7, #547dcd) 50%,
+    var(--celeste-dok7, #547dcd) 100%
+  ) !important;
   position: relative !important;
 }
 
@@ -218,21 +324,23 @@ body {
   pointer-events: auto !important;
 }
 
-.about-sticky-wrap .about-content,
-.about-sticky-wrap .about-content *,
-.about-sticky-wrap .big-text.about,
-.about-sticky-wrap .big-text-wrap,
-.about-sticky-wrap .line-link-text,
-.about-sticky-wrap .line-link-wrap,
-.about-sticky-wrap .button-slide-text,
-.about-wrap .about-content,
-.about-wrap .about-content *,
-.about-wrap .big-text.about,
-.about-wrap .big-text-wrap,
-.about-wrap .line-link-text,
-.about-wrap .line-link-wrap,
-.about-wrap .button-slide-text {
+/* Texto About "Trabajamos…": por fase (scroll 50% en useGsapAnimations) */
+#about .about-text-layer--phase1 .about-content .big-text.about,
+#about .about-text-layer--phase1 .line-link-text {
+  color: #111111 !important;
+}
+
+#about .about-text-layer--phase1 .link-line {
+  background-color: #111111 !important;
+}
+
+#about .about-text-layer--phase2 .about-content .big-text.about,
+#about .about-text-layer--phase2 .line-link-text {
   color: #ffffff !important;
+}
+
+#about .about-text-layer--phase2 .link-line {
+  background-color: #ffffff !important;
 }
 
 .about-second-bg,
@@ -258,6 +366,22 @@ body {
 .why-us-card-100 .why-us-desc,
 .why-us-card-100 .why-us-desc p {
   color: #ffffff !important;
+}
+
+/* "100%": tipografía un poco mayor y cifra con ancho estable al animar */
+.why-us-card-100 .why-us-100-headline {
+  font-size: clamp(2.5rem, 4vw, 4.25rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.05 !important;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+.why-us-card-100 .why-us-percent-sign {
+  font-size: 0.72em;
+  font-weight: 600;
+  opacity: 0.95;
 }
 
 /* Como lo hacemos?: iconos 1-4 antes del titulo de cada card */
@@ -334,6 +458,38 @@ body {
 /* Seccion CTA "Hagamos realidad la solucion": mas margen superior */
 #cta.main-section {
   padding-top: 5rem !important;
+}
+
+/* Título CTA en 2 líneas: ancho completo (Webflow usa 50% y parte "hagamos realidad"). Sin tocar el tamaño de .big-text (8vw). */
+#cta .w-layout-blockcontainer.main-container,
+#cta .main-container.w-container {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+#cta .cta-content {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+#cta .cta-heading-wrap {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+#cta .big-text.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+#cta .big-text.cta .cta-heading-line {
+  display: block;
+  white-space: nowrap;
+  line-height: inherit;
 }
 
 /**
@@ -426,30 +582,7 @@ body {
   color: #ffffff;
   margin: 0;
 }
-/* Botón flotante WhatsApp */
-.whatsapp-fab {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 9999;
-  background-color: #000000;
-  color: #ffffff;
-  text-decoration: none;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 500;
-  padding: 1.6vw 2.2vw;
-  border-radius: 99vw;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.whatsapp-fab:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-  color: #ffffff;
-}
-
-/* CTA inline dentro de la sección (misma estética que whatsapp-fab) */
+/* CTA inline en sección Trabajamos (estilo pill negro) */
 .whatsapp-inline-cta {
   position: relative;
   display: inline-flex;
@@ -465,7 +598,11 @@ body {
   padding: 1.6vw 2.2vw;
   border-radius: 99vw;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.25s ease,
+    background-color 0.25s ease;
   margin: 0 1vw;
   flex: 0 0 auto;
 }
@@ -473,6 +610,368 @@ body {
   transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
   color: #ffffff;
+}
+
+/* About fase 1 (fondo blanco): Conversemos = celeste, texto blanco */
+#about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase1 {
+  background-color: var(--celeste-dok7, #547dcd) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 18px rgba(84, 125, 205, 0.45);
+}
+#about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase1:hover {
+  color: #ffffff !important;
+  box-shadow: 0 6px 22px rgba(84, 125, 205, 0.55);
+}
+
+/* About fase 2 (fondo celeste): botón blanco, texto azul oscuro */
+#about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase2 {
+  background-color: #ffffff !important;
+  color: var(--azul-dok7, #182547) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+#about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase2:hover {
+  color: var(--azul-dok7, #182547) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+}
+
+/* Compat: antiguo toggle (otras páginas / legacy) */
+.whatsapp-inline-cta.whatsapp-inline-cta--on-dark-bg {
+  background-color: #ffffff !important;
+  color: #111111 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+.whatsapp-inline-cta.whatsapp-inline-cta--on-dark-bg:hover {
+  color: #000000 !important;
+}
+
+@media (max-width: 991px) {
+  #about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase1 {
+    background-color: var(--celeste-dok7, #547dcd) !important;
+    color: #ffffff !important;
+  }
+  #about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase1:hover {
+    color: #ffffff !important;
+  }
+  #about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase2 {
+    background-color: #ffffff !important;
+    color: var(--azul-dok7, #182547) !important;
+  }
+}
+
+/**
+ * Página /contacto
+ */
+.contact-page {
+  min-height: 70vh;
+  background-color: #ffffff;
+  color: #111111;
+  padding-top: clamp(6rem, 12vw, 9rem);
+  padding-bottom: 4rem;
+}
+
+.contact-page-inner {
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 3vw;
+  padding-right: 3vw;
+}
+
+.contact-page-title {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 1rem 0;
+  color: #111111;
+}
+
+.contact-page-lead {
+  margin: 0 0 2.5rem 0;
+  color: #444444;
+  line-height: 1.5;
+  max-width: 36ch;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.contact-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-form-label {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #111111;
+}
+
+.contact-form-input,
+.contact-form-textarea {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.35rem;
+  background-color: #ffffff;
+  color: #111111;
+}
+
+.contact-form-textarea {
+  resize: vertical;
+  min-height: 8rem;
+}
+
+.contact-form-input:focus,
+.contact-form-textarea:focus {
+  outline: none;
+  border-color: var(--azul-dok7, #182547);
+  box-shadow: 0 0 0 2px rgba(24, 37, 71, 0.15);
+}
+
+.contact-form-submit {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  padding: 0.9rem 2rem;
+  border: none;
+  border-radius: 0.35rem;
+  cursor: pointer;
+  background-color: var(--azul-dok7, #182547);
+  color: #ffffff;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.contact-form-submit:hover {
+  opacity: 0.92;
+}
+
+.contact-form-submit:active {
+  transform: scale(0.98);
+}
+
+/**
+ * Páginas legales (/aviso-legal, /politica-de-privacidad, /politica-de-cookies)
+ */
+.legal-page {
+  min-height: 70vh;
+  background-color: #ffffff;
+  color: #111111;
+  padding-top: clamp(6rem, 12vw, 9rem);
+  padding-bottom: 4rem;
+}
+
+.legal-page-inner {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 3vw;
+  padding-right: 3vw;
+}
+
+.legal-page-title {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 2rem 0;
+  color: #111111;
+}
+
+.legal-page-content {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #333333;
+}
+
+.legal-page-p {
+  margin: 0 0 1rem 0;
+}
+
+.legal-page-h2 {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem);
+  font-weight: 600;
+  color: #111111;
+  margin: 2rem 0 0.75rem 0;
+  line-height: 1.25;
+}
+
+.legal-page-h3 {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #182547;
+  margin: 1.25rem 0 0.5rem 0;
+  line-height: 1.3;
+}
+
+.legal-page-list {
+  margin: 0 0 1.25rem 0;
+  padding-left: 1.25rem;
+}
+
+.legal-page-list li {
+  margin-bottom: 0.35rem;
+}
+
+.legal-page-link {
+  color: var(--azul-dok7, #182547);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-page-link:hover {
+  opacity: 0.85;
+}
+
+/**
+ * Banner / modal de consentimiento de cookies
+ */
+.cookie-consent-root {
+  position: fixed;
+  inset: 0;
+  z-index: 10050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  pointer-events: none;
+}
+
+.cookie-consent-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+  background: rgba(15, 20, 35, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cookie-consent-dialog {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  width: 100%;
+  max-width: 32rem;
+  max-height: min(90vh, 40rem);
+  overflow-y: auto;
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  border-radius: 0.65rem;
+  background: #ffffff;
+  color: #1a1a1a;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.06),
+    0 24px 48px rgba(24, 37, 71, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cookie-consent-title {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.85rem 0;
+  color: #111111;
+  line-height: 1.2;
+}
+
+.cookie-consent-text {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0 0 1.35rem 0;
+  color: #3a3a3a;
+}
+
+.cookie-consent-inline-link {
+  color: var(--azul-dok7, #182547);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cookie-consent-inline-link:hover {
+  opacity: 0.88;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.cookie-consent-btn {
+  font-family:
+    Inter Tight,
+    sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.75rem 1.15rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  border: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease,
+    background 0.2s ease;
+}
+
+.cookie-consent-btn:active {
+  transform: scale(0.98);
+}
+
+.cookie-consent-btn--primary {
+  background-color: var(--azul-dok7, #182547);
+  color: #ffffff;
+}
+
+.cookie-consent-btn--primary:hover {
+  opacity: 0.92;
+}
+
+.cookie-consent-btn--secondary {
+  background-color: #f0f2f6;
+  color: #182547;
+  border: 1px solid rgba(24, 37, 71, 0.2);
+}
+
+.cookie-consent-btn--secondary:hover {
+  background-color: #e4e7ee;
 }
 
 @media (max-width: 991px) {

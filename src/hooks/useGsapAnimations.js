@@ -13,6 +13,7 @@ export function useGsapAnimations() {
     const initScroll = () => {
       if (typeof Lenis === 'undefined') return;
       lenis = new Lenis({});
+      window.__dok7Lenis = lenis;
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
       gsap.ticker.lagSmoothing(0);
@@ -101,6 +102,7 @@ export function useGsapAnimations() {
     const aboutSmallDesc = document.querySelectorAll('.small-desc');
     const aboutBigText = document.querySelectorAll('.big-text.about');
     let aboutRevealTrigger = null;
+    let aboutPhaseCtaSt = null;
     const aboutTriggerEl = document.querySelector('.about-text-layer') || document.querySelector('.about-phases-wrapper') || document.querySelector('#about');
     if (aboutTriggerEl) {
       aboutRevealTrigger = ScrollTrigger.create({
@@ -138,6 +140,28 @@ export function useGsapAnimations() {
           }
         },
       });
+    }
+
+    // About "Trabajamos": fase 1 = blanco / texto negro / botón celeste; fase 2 = celeste / texto blanco / botón claro (50% scroll)
+    const phasesWrap = document.querySelector('.about-phases-wrapper');
+    const aboutTextLayer = document.querySelector('.about-text-layer');
+    const whatsappInline = document.querySelector('.whatsapp-inline-cta');
+    if (phasesWrap && aboutTextLayer && whatsappInline) {
+      const syncAboutPhases = (self) => {
+        const p = self.progress;
+        const phase2 = p >= 0.5;
+        aboutTextLayer.classList.toggle('about-text-layer--phase2', phase2);
+        aboutTextLayer.classList.toggle('about-text-layer--phase1', !phase2);
+        whatsappInline.classList.toggle('whatsapp-inline-cta--about-phase2', phase2);
+        whatsappInline.classList.toggle('whatsapp-inline-cta--about-phase1', !phase2);
+      };
+      aboutPhaseCtaSt = ScrollTrigger.create({
+        trigger: phasesWrap,
+        start: 'top top',
+        end: 'bottom top',
+        onUpdate: syncAboutPhases,
+      });
+      requestAnimationFrame(() => syncAboutPhases(aboutPhaseCtaSt));
     }
 
     // About Section - Image Card Loop
@@ -236,6 +260,31 @@ export function useGsapAnimations() {
         });
       }
     });
+
+    // Why Us — tarjeta "100%": animar de 0 a 100 al entrar en vista
+    const percentValueEl = document.querySelector('.why-us-percent-value');
+    const card100 = document.querySelector('.why-us-card-100');
+    let whyUsHundredSt = null;
+    if (percentValueEl && card100) {
+      percentValueEl.textContent = '0';
+      whyUsHundredSt = ScrollTrigger.create({
+        trigger: card100,
+        start: 'top 80%',
+        once: true,
+        onEnter: () => {
+          gsap.fromTo(
+            percentValueEl,
+            { innerText: 0 },
+            {
+              innerText: 100,
+              duration: 2.4,
+              ease: 'power2.out',
+              snap: { innerText: 1 },
+            }
+          );
+        },
+      });
+    }
 
     // Why Us Section - Barra de progreso (progress-bar-dynamic) al entrar en view
     const progressBarTriggers = [];
@@ -345,6 +394,7 @@ export function useGsapAnimations() {
     }
 
     return () => {
+      delete window.__dok7Lenis;
       window.removeEventListener('resize', onResize);
       resizeObserver.disconnect();
       if (intervalId) clearInterval(intervalId);
@@ -352,9 +402,11 @@ export function useGsapAnimations() {
       if (testimonialScrollTrigger) testimonialScrollTrigger.kill();
       if (heroScrollTrigger) heroScrollTrigger.kill();
       if (aboutRevealTrigger) aboutRevealTrigger.kill();
+      if (aboutPhaseCtaSt) aboutPhaseCtaSt.kill();
       if (workInitScrollTrigger) workInitScrollTrigger.kill();
       workSectionTriggers.forEach((t) => t.kill());
       progressBarTriggers.forEach((t) => t.kill());
+      if (whyUsHundredSt) whyUsHundredSt.kill();
     };
   }, []);
 }
