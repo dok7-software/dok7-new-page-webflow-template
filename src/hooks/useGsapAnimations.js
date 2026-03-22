@@ -368,7 +368,7 @@ export function useGsapAnimations() {
       }
     });
 
-    // Testimonial Section: t1 visible para leer → giro → t2 (Alexander) visible mucho rato para leerlo entero antes de salir
+    // Testimonial Section: t1 visible para leer → giro → t2 (Alexander) visible mucho rato antes de salir
     const testimonialRotateEl = document.querySelector('.testimonial-rotate');
     let testimonialScrollTrigger;
     if (testimonialRotateEl) {
@@ -393,6 +393,34 @@ export function useGsapAnimations() {
       testimonialScrollTrigger = tl.scrollTrigger;
     }
 
+    // Testimonial Section: fondo negro -> blanco y fade del título mientras haces scroll
+    const testimonialEl = document.querySelector('#testimonial');
+    const testimonialTitleWrap = document.querySelector('#testimonial .testimonial-title-wrap');
+    let testimonialColorScrollTrigger = null;
+    if (testimonialEl && testimonialTitleWrap) {
+      gsap.set(testimonialEl, { backgroundColor: '#000000' });
+      gsap.set(testimonialTitleWrap, { autoAlpha: 1 });
+
+      const colorTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#testimonial',
+          start: 'top 95%',
+          end: 'top 55%',
+          scrub: 1.2,
+        },
+      });
+
+      colorTl.to(testimonialEl, { backgroundColor: '#ffffff', ease: 'none', duration: 1 }, 0);
+      // Retrasar el fade del título para que no desaparezca tan pronto
+      // Fade solo en el último tramo del timeline (para que desaparezca cuando el fondo ya es blanco)
+      colorTl.to(
+        testimonialTitleWrap,
+        { autoAlpha: 0, ease: 'none', duration: 0.25 },
+        0.75
+      );
+      testimonialColorScrollTrigger = colorTl.scrollTrigger;
+    }
+
     return () => {
       delete window.__dok7Lenis;
       window.removeEventListener('resize', onResize);
@@ -400,6 +428,7 @@ export function useGsapAnimations() {
       if (intervalId) clearInterval(intervalId);
       if (scrollTriggerInstance) scrollTriggerInstance.kill();
       if (testimonialScrollTrigger) testimonialScrollTrigger.kill();
+      if (testimonialColorScrollTrigger) testimonialColorScrollTrigger.kill();
       if (heroScrollTrigger) heroScrollTrigger.kill();
       if (aboutRevealTrigger) aboutRevealTrigger.kill();
       if (aboutPhaseCtaSt) aboutPhaseCtaSt.kill();

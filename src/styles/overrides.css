@@ -420,7 +420,7 @@ body {
 }
 
 .main-section.testimonial {
-  background-color: #000000 !important;
+  background-color: #000000;
   overflow: visible !important;
 }
 #testimonial .main-container {
@@ -453,6 +453,53 @@ body {
 #testimonial .testimonial-camera {
   perspective: 100vw;
   transform-style: preserve-3d;
+}
+
+/**
+ * Testimonios: efecto vidrio/gloss en el shape global
+ */
+#testimonial .testimonial-shape-global {
+  overflow: hidden !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  box-shadow:
+    0 14px 45px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+#testimonial .testimonial-shape-global::before {
+  content: '';
+  position: absolute;
+  inset: -35%;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.12) 34%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  transform: rotate(12deg);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+#testimonial .testimonial-shape-global::after {
+  content: '';
+  position: absolute;
+  left: -20%;
+  top: -25%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.22) 35%,
+    rgba(255, 255, 255, 0) 72%
+  );
+  opacity: 0.65;
+  pointer-events: none;
+  filter: blur(2px);
 }
 
 /* Seccion CTA "Hagamos realidad la solucion": mas margen superior */
@@ -612,6 +659,12 @@ body {
   color: #ffffff;
 }
 
+/* About "Conversemos": mismo tamaño de fuente que CTA "Hablemos" (.button-slide / .button-slide-text) */
+#about .whatsapp-inline-cta {
+  font-size: 1.2vw;
+  line-height: 1.5vw;
+}
+
 /* About fase 1 (fondo blanco): Conversemos = celeste, texto blanco */
 #about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase1 {
   background-color: var(--celeste-dok7, #547dcd) !important;
@@ -645,6 +698,11 @@ body {
 }
 
 @media (max-width: 991px) {
+  #about .whatsapp-inline-cta {
+    font-size: 2vw;
+    line-height: 2.5vw;
+  }
+
   #about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase1 {
     background-color: var(--celeste-dok7, #547dcd) !important;
     color: #ffffff !important;
@@ -655,6 +713,13 @@ body {
   #about .whatsapp-inline-cta.whatsapp-inline-cta--about-phase2 {
     background-color: #ffffff !important;
     color: var(--azul-dok7, #182547) !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #about .whatsapp-inline-cta {
+    font-size: 1rem;
+    line-height: 1rem;
   }
 }
 
